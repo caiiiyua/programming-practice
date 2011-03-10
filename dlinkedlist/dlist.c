@@ -31,58 +31,58 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct _Node node;
+typedef struct _Node Node;
 struct _Node {
     int value;
-    node *next;
-    node *prev;
+    Node *next;
+    Node *prev;
 };
 
-typedef struct _Dlist dlist;
-struct _Dlist {
-    node *head;
-    node *tail;
+typedef struct _DList DList;
+struct _DList {
+    Node *head;
+    Node *tail;
     int length;
 };
 
-dlist * initList();
-void deinitList(dlist *dl);
-void appendHead(dlist *dl, int value);
-void appendTail(dlist *dl, int value);
-void removeHead(dlist *dl);
-void removeTail(dlist *dl);
-void insertBefore(dlist *dl, int value, node *B);
-void insertAfter(dlist *dl, int value, node *A);
-void removeBefore(dlist *dl, node *B);
-void removeAfter(dlist *dl, node *A);
-void removeNode(dlist *dl, node *theNode);
-void printHead(dlist *dl);
-void printTail(dlist *dl);
+DList * dlist_init();
+void dlist_deinit(DList *dl);
+void dlist_append_head(DList *dl, int value);
+void dlist_append_tail(DList *dl, int value);
+void dlist_remove_head(DList *dl);
+void dlist_remove_tail(DList *dl);
+void dlist_print_head(DList *dl);
+void dlist_print_tail(DList *dl);
+void dlist_insert_before(DList *dl, int value, Node *B);
+void dlist_insert_after(DList *dl, int value, Node *A);
+void dlist_remove_before(DList *dl, Node *B);
+void dlist_remove_after(DList *dl, Node *A);
+void dlist_remove_node(DList *dl, Node *theNode);
 
-dlist *initList() {
-    dlist *dl = (dlist *)malloc(sizeof(dlist));
+DList *dlist_init() {
+    DList *dl = (DList *)malloc(sizeof(DList));
     dl->length = 0;
     dl->head = NULL;
     dl->tail = NULL;
     return dl;
 }
 
-void deinitList(dlist *dl) {
+void dlist_deinit(DList *dl) {
     if(dl == NULL) {
         printf("List is NULL\n");
         return;
     }
 
     while(dl->tail != NULL) {
-        removeTail(dl);
+        dlist_remove_tail(dl);
     }
     free(dl);
     dl = NULL;
     printf("List deinited!\n");
 }
 
-void removeHead(dlist *dl) {
-    node * tNode = NULL;
+void dlist_remove_head(DList *dl) {
+    Node * tNode = NULL;
     if(dl == NULL) {
         printf("List is NULL\n");
         return;
@@ -99,8 +99,8 @@ void removeHead(dlist *dl) {
     }
 }
 
-void removeTail(dlist *dl) {
-    node * tNode = NULL;
+void dlist_remove_tail(DList *dl) {
+    Node * tNode = NULL;
     if(dl == NULL) {
         printf("List is NULL\n");
         return;
@@ -117,15 +117,15 @@ void removeTail(dlist *dl) {
     }
 }
 
-void appendHead(dlist *dl, int value) {
+void dlist_append_head(DList *dl, int value) {
 
-    node *newNode = NULL;
+    Node *newNode = NULL;
 
     if(dl == NULL) {
         return;
     }
 
-    newNode = (node *)malloc(sizeof(node));
+    newNode = (Node *)malloc(sizeof(Node));
     newNode->value = value;
 
     if(dl->head != NULL) {
@@ -143,15 +143,15 @@ void appendHead(dlist *dl, int value) {
     dl->length++;
 }
 
-void appendTail(dlist *dl, int value) {
+void dlist_append_tail(DList *dl, int value) {
 
-    node *newNode = NULL;
+    Node *newNode = NULL;
 
     if(dl == NULL) {
         return;
     }
 
-    newNode = (node *)malloc(sizeof(node));
+    newNode = (Node *)malloc(sizeof(Node));
     newNode->value = value;
 
     if(dl->head != NULL) {
@@ -169,8 +169,8 @@ void appendTail(dlist *dl, int value) {
     dl->length++;
 }
 
-void printHead(dlist *dl) {
-    node * tNode = NULL;
+void dlist_print_head(DList *dl) {
+    Node * tNode = NULL;
 
     if(dl == NULL) {
         return;
@@ -193,8 +193,8 @@ void printHead(dlist *dl) {
 
 }
 
-void printTail(dlist *dl) {
-    node * tNode = NULL;
+void dlist_print_tail(DList *dl) {
+    Node * tNode = NULL;
 
     if(dl == NULL) {
         return;
@@ -220,14 +220,15 @@ void printTail(dlist *dl) {
 int main(int argc, char *argv[])
 {
     printf("Hello Double linked list!\n");
-    dlist *dl = initList();
-    appendTail(dl, 1);
-    appendTail(dl, 2);
-    appendHead(dl, 3);
-    appendTail(dl, 4);
-    appendHead(dl, 5);
-    printTail(dl);
-    printHead(dl);
-    deinitList(dl);
+    DList *dl = dlist_init();
+    dlist_append_tail(dl, 1);
+    dlist_append_tail(dl, 2);
+    dlist_append_head(dl, 3);
+    dlist_append_tail(dl, 4);
+    dlist_append_head(dl, 5);
+    dlist_print_tail(dl);
+    dlist_print_head(dl);
+    dlist_deinit(dl);
+
     return 0;
 }
