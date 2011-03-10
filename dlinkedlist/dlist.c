@@ -81,6 +81,24 @@ void deinitList(dlist *dl) {
     printf("List deinited!\n");
 }
 
+void removeHead(dlist *dl) {
+    node * tNode = NULL;
+    if(dl == NULL) {
+        printf("List is NULL\n");
+        return;
+    }
+
+    if(dl->head != NULL) {
+        tNode = dl->head->next;
+        printf("free node: value is %d\n",dl->head->value);
+        free(dl->head);
+        if(tNode != NULL) {
+            tNode->next = NULL;
+        }
+        dl->head = tNode;
+    }
+}
+
 void removeTail(dlist *dl) {
     node * tNode = NULL;
     if(dl == NULL) {
