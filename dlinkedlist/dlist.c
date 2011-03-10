@@ -42,6 +42,7 @@ typedef struct _Dlist dlist;
 struct _Dlist {
     node *head;
     node *tail;
+    int length;
 };
 
 dlist * initList();
@@ -60,33 +61,68 @@ void printTail(dlist *dl);
 
 dlist *initList() {
     dlist *dl = (dlist *)malloc(sizeof(dlist));
+    dl->length = 0;
     dl->head = NULL;
     dl->tail = NULL;
     return dl;
 }
 
+void deinitList(dlist *dl) {
+    if(dl == NULL) {
+        printf("List is NULL\n");
+        return;
+    }
+
+    while(dl->tail != NULL) {
+        removeTail(dl);
+    }
+    free(dl);
+    dl = NULL;
+    printf("List deinited!\n");
+}
+
+void removeTail(dlist *dl) {
+    node * tNode = NULL;
+    if(dl == NULL) {
+        printf("List is NULL\n");
+        return;
+    }
+
+    if(dl->tail != NULL) {
+        tNode = dl->tail->prev;
+        printf("free node: value is %d\n",dl->tail->value);
+        free(dl->tail);
+        if(tNode != NULL) {
+            tNode->next = NULL;
+        }
+        dl->tail = tNode;
+    }
+}
+
 void appendTail(dlist *dl, int value) {
 
-    node *tNode = NULL;
+    node *newNode = NULL;
 
     if(dl == NULL) {
         return;
     }
 
-    if(dl->head == NULL) {
-        dl->head = (node *)malloc(sizeof(node));
-        //memset(dl->head, 0, sizeof(node));
+    newNode = (node *)malloc(sizeof(node));
+    newNode->value = value;
+
+    if(dl->head != NULL) {
+        newNode->next = NULL;
+        newNode->prev = dl->tail;
+        dl->tail->next = newNode;
+        dl->tail = newNode;
+    }
+    else {
+        newNode->next = newNode->prev = NULL;
+        dl->head = newNode;
+        dl->tail = newNode;
     }
 
-    tNode = dl->head;
-    while(tNode != NULL) {
-        if(tNode->next == NULL) {
-            tNode->value = value;
-            return;
-        } else {
-            tNode = tNode->next;
-        }
-    }
+    dl->length++;
 }
 
 void printHead(dlist *dl) {
@@ -113,6 +149,30 @@ void printHead(dlist *dl) {
 
 }
 
+void printTail(dlist *dl) {
+    node * tNode = NULL;
+
+    if(dl == NULL) {
+        return;
+    }
+
+    if(dl->tail == NULL) {
+        printf("Double Linked List is empty!\n");
+        return;
+    }
+
+    tNode = dl->tail;
+    while(tNode != NULL) {
+        printf(" %d \n",tNode->value);
+        if(tNode->prev == NULL) {
+            return;
+        } else {
+            tNode = tNode->prev;
+        }
+    }
+
+}
+
 int main(int argc, char *argv[])
 {
     printf("Hello Double linked list!\n");
@@ -122,7 +182,8 @@ int main(int argc, char *argv[])
     appendTail(dl, 3);
     appendTail(dl, 4);
     appendTail(dl, 5);
+    printTail(dl);
     printHead(dl);
+    deinitList(dl);
     return 0;
 }
-
