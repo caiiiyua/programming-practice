@@ -99,6 +99,32 @@ void removeTail(dlist *dl) {
     }
 }
 
+void appendHead(dlist *dl, int value) {
+
+    node *newNode = NULL;
+
+    if(dl == NULL) {
+        return;
+    }
+
+    newNode = (node *)malloc(sizeof(node));
+    newNode->value = value;
+
+    if(dl->head != NULL) {
+        newNode->next = dl->head;
+        newNode->prev = NULL;
+        dl->head->prev = newNode;
+        dl->head = newNode;
+    }
+    else {
+        newNode->next = newNode->prev = NULL;
+        dl->head = newNode;
+        dl->tail = newNode;
+    }
+
+    dl->length++;
+}
+
 void appendTail(dlist *dl, int value) {
 
     node *newNode = NULL;
@@ -179,9 +205,9 @@ int main(int argc, char *argv[])
     dlist *dl = initList();
     appendTail(dl, 1);
     appendTail(dl, 2);
-    appendTail(dl, 3);
+    appendHead(dl, 3);
     appendTail(dl, 4);
-    appendTail(dl, 5);
+    appendHead(dl, 5);
     printTail(dl);
     printHead(dl);
     deinitList(dl);
