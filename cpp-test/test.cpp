@@ -33,7 +33,7 @@
 
 int main(int argc, char* argv[]) {
     String s("nehe");
-    String n("how are you");
+    String n(s);
     n = s;
     cout<<"hello cpp\n";
 }
