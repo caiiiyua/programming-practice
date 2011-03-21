@@ -2,7 +2,7 @@
 #define __STRING_
 #include "test.h"
 
-class String 
+class String
 {
 public:
     String(const char *src = NULL);
