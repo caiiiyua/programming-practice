@@ -1,21 +1,29 @@
 #include <iostream>
-#include <list>
+#include <vector>
 using namespace std;
 
 class SquareDigits
 {
 public:
     int smallestResult(int n);
-//private:
+private:
     int S(int x);
-    int T(int n);
+    bool T(int n);
     int num;
 };
 
 int SquareDigits::smallestResult(int n) {
-    for(int i = 0;i <= 199;i++) {
-    ;
+    num = n;
+    //for(int i = 0;i <= 199;i++) {
+    //    cout << "n is " << i << endl;
+    //    if(T(i) == true) return i;
+    //}
+    int i = 0;
+    while(1) {
+        if(T(i) == true) return i;
+        i++;
     }
+    return 0;
 }
 
 int SquareDigits::S(int x) {
@@ -28,16 +36,27 @@ int SquareDigits::S(int x) {
     return s;
 }
 
-int SquareDigits::T(int n) {
+bool SquareDigits::T(int n) {
+    vector<int> v;
     int x = n;
     do {
         x = S(x);
+        if(!v.empty()) {
+            for(int i = 0;i < v.size();i++) {
+                if(x == v[i]) return false;
+            }
+        }
+        v.push_back(x);
+        cout << x << " " << num << endl;
     } while(x != num);
+    return true;
 }
 
 
 
 int main() {
     SquareDigits s;
-    cout << "hello squaredigits" << s.S(0) << endl;
+    int n = 0;
+    cin >> n;
+    cout << "hello squaredigits: " << s.smallestResult(n) << endl;
 }
